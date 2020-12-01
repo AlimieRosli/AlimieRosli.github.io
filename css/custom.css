@@ -796,7 +796,7 @@ body.dark ::placeholder { /* Most modern browsers support this now. */
 }
 .arlo_tm_about .about_short_contact_wrap ul li{
 	margin: 0px 0px 10px 0px;
-	width: 50%;
+	width: 100%;
 	float: left;
 	position: relative;
 	padding-left: 30px;
@@ -2491,7 +2491,7 @@ body.dark ::placeholder { /* Most modern browsers support this now. */
 	background-repeat: no-repeat;
 	background-size: cover;
 	background-position: center;
-	background-image: url("..//img/slider/6.jpg");
+	background-image: url("..//img/photo/pho02.jpg");
 }
 .arlo_tm_hero_header .ripple:before{
 	position: absolute;
