@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Marketify
+ * Copyright (c) 2019 - 2021 Marketify
  * Author: Marketify
  * This file is made for CURRENT TEMPLATE
 */
@@ -11,14 +11,15 @@ jQuery(document).ready(function(){
 	// here all ready functions
 	
 	arlo_tm_cursor();
+	arlo_tm_intro_tabs();
+	arlo_tm_kenburn_slider();
+	arlo_tm_modalbox_news();
+	arlo_tm_scrollable();
 	arlo_tm_nav_bg();
-	arlo_tm_partners();
 	arlo_tm_popup();
+	arlo_tm_mobile_menu();
 	arlo_tm_down();
 	arlo_tm_imgtosvg();
-	arlo_tm_scrollable();
-	arlo_tm_mobile_menu();
-	arlo_tm_kenburn_slider();
 	arlo_tm_data_images();
 	arlo_tm_jarallax();
 	arlo_tm_portfolio();
@@ -30,21 +31,16 @@ jQuery(document).ready(function(){
 	arlo_tm_videoplayer();
 	arlo_tm_about_animation();
 	arlo_tm_animate_text();
-	arlo_tm_totop();
 	
 	jQuery(window).on('resize',function(){
-		arlo_tm_scrollable();
 		arlo_tm_isotope();
+		arlo_tm_modalbox_news();
 	});
 	
-	jQuery(window).on('scroll',function(){
-		arlo_tm_nav_bg();
-	});
-	
-	jQuery(window).load('body', function(){
+	window.addEventListener("load", function (){
 		setTimeout(function(){
-        jQuery('.arlo_tm_preloader').addClass('loaded');
-    }, 1000);
+			jQuery('.arlo_tm_preloader').addClass('loaded');
+		}, 1000);
         arlo_tm_isotope();
 	});
 	
@@ -53,6 +49,27 @@ jQuery(document).ready(function(){
 // -----------------------------------------------------
 // ---------------   FUNCTIONS    ----------------------
 // -----------------------------------------------------
+
+// -----------------------------------------------------
+// ------------------    INTRO TABS    -----------------
+// -----------------------------------------------------
+
+function arlo_tm_intro_tabs(){
+	"use strict";
+	
+	var button		= jQuery('.arlo_tm_intro_content .main_filter ul li a');
+	var tabList		= jQuery('.arlo_tm_intro_content .demo_list');
+	
+	button.on('click',function(){
+		var element		= jQuery(this);
+		var elAttr		= element.attr('data-tab');
+		button.removeClass('current');
+		tabList.removeClass('current');
+		element.addClass('current');
+		jQuery("#"+elAttr).addClass('current');
+		return false;
+	});
+}
 
 // -----------------------------------------------------
 // ------------------   CURSOR    ----------------------
@@ -81,35 +98,71 @@ function arlo_tm_cursor(){
 	}
 };
 
-// -----------------------------------------------------
-// --------------------   SKILLS    --------------------
-// -----------------------------------------------------
+// -------------------------------------------------
+// -------------  SLIDER KENBURN  ------------------
+// -------------------------------------------------
 
-function tdProgress(container){
+function arlo_tm_kenburn_slider(){
 	
 	"use strict";
-		
-	container.find('.progress_inner').each(function() {
-		var progress 		= jQuery(this);
-		var pValue 			= parseInt(progress.data('value'), 10);
-		var pColor			= progress.data('color');
-		var pBarWrap 		= progress.find('.bar');
-		var pBar 			= progress.find('.bar_in');
-		pBar.css({width:pValue+'%', backgroundColor:pColor});
-		setTimeout(function(){pBarWrap.addClass('open');});
+	
+		jQuery(function() {
+			jQuery('.arlo_tm_hero .overlay_slider').vegas({
+			timer:false,	
+			animation: [ 'kenburnsUp',  'kenburnsLeft', 'kenburnsRight'],
+			delay:7000,
+
+			slides: [
+				{ src: 'img/slider/1.jpg' },
+				{ src: 'img/slider/2.jpg' },
+				{ src: 'img/slider/3.jpg' },
+			]
+
+		});
 	});
 }
 
-jQuery('.arlo_progress').each(function() {
+// -------------------------------------------------
+// -------------  MODALBOX NEWS  -------------------
+// -------------------------------------------------
 
+function arlo_tm_modalbox_news(){
+	
 	"use strict";
-
-	var pWrap 			= jQuery(this);
-	pWrap.waypoint({handler: function(){tdProgress(pWrap);},offset:'90%'});	
-});
+	
+	var modalBox	= jQuery('.arlo_tm_modalbox_news');
+	var list 		= jQuery('.arlo_tm_news .news_list ul li');
+	var closePopup	= modalBox.find('.close');
+	
+	list.each(function(){
+		var element 	= jQuery(this);
+		var details 	= element.find('.list_inner').html();
+		var buttons 	= element.find('.details .title a,.arlo_tm_full_link');
+		var mainImage	= element.find('.main');
+		var imgData		= mainImage.data('img-url');
+		var title		= element.find('.title');
+		var titleHref	= element.find('.title a').html();
+		buttons.on('click',function(){
+			jQuery('body').addClass('modal');
+			modalBox.addClass('opened');
+			modalBox.find('.description_wrap').html(details);
+			mainImage = modalBox.find('.main');
+			mainImage.css({backgroundImage: 'url('+imgData+')'});
+			title = modalBox.find('.title');
+			title.html(titleHref);
+			return false;
+		});
+	});
+	closePopup.on('click',function(){
+		modalBox.removeClass('opened');
+		modalBox.find('.description_wrap').html('');
+		jQuery('body').removeClass('modal');
+		return false;
+	});	
+}
 
 // -------------------------------------------------
-// -------------   TOPBAR BG SCROL  ----------------
+// -------------   TOPBAR BG SCROLL  ---------------
 // -------------------------------------------------
 
 function arlo_tm_nav_bg(){
@@ -117,7 +170,7 @@ function arlo_tm_nav_bg(){
 	"use strict";
 	
 	jQuery(window).on('scroll',function(){
-		var menu	 		= jQuery('.arlo_tm_classic_menu');
+		var menu	 		= jQuery('.arlo_tm_topbar');
 		var WinOffset		= jQuery(window).scrollTop();
 		
 		if(WinOffset >= 100){
@@ -129,6 +182,58 @@ function arlo_tm_nav_bg(){
 }
 
 // -------------------------------------------------
+// --------------   MENU SCROLL  -------------------
+// -------------------------------------------------
+
+function arlo_tm_scrollable(){
+	
+	"use strict";
+	
+	var H				= jQuery(window).height();
+	var scrollable		= jQuery('.arlo_tm_leftpart .inner .menu.scrollable');
+	var verMenu			= jQuery('.arlo_tm_leftpart .inner .menu');
+	var logoHeight		= jQuery('.arlo_tm_leftpart .inner .logo').outerHeight();
+	var socialHeight	= jQuery('.arlo_tm_leftpart .inner .bottom').outerHeight()+100;
+
+	verMenu.css({height:H-logoHeight-socialHeight});
+	
+	scrollable.each(function(){
+		var element		= jQuery(this);
+		
+		element.css({height: H-logoHeight-socialHeight}).niceScroll({
+			touchbehavior:false,
+			cursorwidth:0,
+			autohidemode:true,
+			cursorborder:"0px solid #eee"
+		});
+	});
+}
+
+// -----------------------------------------------------
+// -------------------    COUNTER    -------------------
+// -----------------------------------------------------
+
+jQuery('.arlo_tm_counter').each(function() {
+
+	"use strict";
+
+	var el		= jQuery(this);
+	el.waypoint({
+		handler: function(){
+
+			if(!el.hasClass('stop')){
+				el.addClass('stop').countTo({
+					refreshInterval: 50,
+					formatter: function (value, options) {
+						return value.toFixed(options.decimals).replace(/\B(?=(?:\d{3})+(?!\d))/g, ',');
+					},	
+				});
+			}
+		},offset:'95%'	
+	});
+});
+
+// -------------------------------------------------
 // -------------   ANIMATE TEXT  -------------------
 // -------------------------------------------------
 
@@ -138,49 +243,13 @@ function arlo_tm_animate_text(){
 	
 	var animateSpan			= jQuery('.arlo_tm_animation_text_word');
 	
-		animateSpan.typed({
-			strings: ["Sotfware Engineer", "Web Developer"],
-			loop: true,
-			startDelay: 1e3,
-			backDelay: 2e3
-		});
+	animateSpan.typed({
+		strings: ["Freelancer", "Web Developer", "Photographer"],
+		loop: true,
+		startDelay: 1e3,
+		backDelay: 2e3
+	});
 }
-
-// -----------------------------------------------------
-// ----------------    OWL CAROUSEL    -----------------
-// -----------------------------------------------------
-
-function arlo_tm_partners(){
-	
-	"use strict";
-	
-		var carousel			= jQuery('.arlo_tm_testimonial .owl-carousel');
-		carousel.owlCarousel({
-			loop: true,
-			animateOut: 'fadeOut',
-			animateIn: 'fadeIn',
-			items: 1,
-			lazyLoad: true,
-			autoplay: true,
-			autoplayTimeout: 6000,
-			smartSpeed: 2000,
-			margin: 100,
-			dots: true,
-			nav: false,
-			navSpeed: true,
-			responsive : {
-				0 : {
-					mouseDrag: false,
-					touchDrag: true,
-				},
-				1100 : {
-					mouseDrag: true,
-					touchDrag: true,
-				}
-			}
-		});
-		arlo_tm_imgtosvg();
-	}
 
 // -----------------------------------------------------
 // --------------------   POPUP    ---------------------
@@ -214,7 +283,6 @@ function arlo_tm_popup(){
 	});
 }
 
-
 // -----------------------------------------------------
 // --------------------    WOW JS    -------------------
 // -----------------------------------------------------
@@ -228,26 +296,73 @@ function arlo_tm_popup(){
 jQuery('.anchor_nav').onePageNav();
 
 // -----------------------------------------------------
+// ---------------   MOBILE MENU    --------------------
+// -----------------------------------------------------
+
+function arlo_tm_mobile_menu(){
+	
+	"use strict";
+		
+	var hamburger 		= jQuery('.hamburger');
+	var mobileMenu		= jQuery('.arlo_tm_mobile_menu .dropdown');
+	
+	hamburger.on('click',function(){
+		var element 	= jQuery(this);
+		
+		if(element.hasClass('is-active')){
+			element.removeClass('is-active');
+			mobileMenu.slideUp();
+		}else{
+			element.addClass('is-active');
+			mobileMenu.slideDown();
+		}
+		return false;
+	});
+	jQuery('.arlo_tm_mobile_menu .dropdown .dropdown_inner ul li a').on('click',function(){
+		hamburger.removeClass('is-active');
+		mobileMenu.slideUp();
+		return false;
+	});
+}
+
+// -----------------------------------------------------
 // -----------------    DOWN    ------------------------
 // -----------------------------------------------------
 
 function arlo_tm_down(){
 	
 	"use strict";
-	
+	var topbar		= jQuery('.arlo_tm_topbar').outerHeight();
 	jQuery('.arlo_tm_arrow_wrap a').on('click',function(){
-		if($.attr(this, 'href') !== '#'){
+		if($('.arlo_tm_topbar').length){
+			if($.attr(this, 'href') !== '#'){
 			$('html, body').animate({
-				scrollTop: $($.attr(this, 'href')).offset().top
-			}, 1000);
+				scrollTop: $($.attr(this, 'href')).offset().top-topbar+3
+			}, 800);
+		}
+		}else{
+			if($.attr(this, 'href') !== '#'){
+				$('html, body').animate({
+					scrollTop: $($.attr(this, 'href')).offset().top
+				}, 800);
+			}
 		}
 		return false;
 	});
-	jQuery('.arlo_tm_arrow_classic a').on('click',function(){
-		if($.attr(this, 'href') !== '#'){
+	
+	jQuery('.arlo_tm_services .lets_work a').on('click',function(){
+		if($('.arlo_tm_topbar').length){
+			if($.attr(this, 'href') !== '#'){
 			$('html, body').animate({
-				scrollTop: $($.attr(this, 'href')).offset().top-90
-			}, 1000);
+				scrollTop: $($.attr(this, 'href')).offset().top-topbar+3
+			}, 800);
+		}
+		}else{
+			if($.attr(this, 'href') !== '#'){
+				$('html, body').animate({
+					scrollTop: $($.attr(this, 'href')).offset().top
+				}, 800);
+			}
 		}
 		return false;
 	});
@@ -284,83 +399,6 @@ function arlo_tm_imgtosvg(){
 
 		}, 'xml');
 
-	});
-}
-
-// -------------------------------------------------
-// -------------  SLIDER KENBURN  ------------------
-// -------------------------------------------------
-
-function arlo_tm_kenburn_slider(){
-	
-	"use strict";
-	
-		jQuery(function() {
-			jQuery('.arlo_tm_hero_header .overlay_slider').vegas({
-			timer:false,	
-			animation: [ 'kenburnsUp',  'kenburnsLeft', 'kenburnsRight'],
-			delay:7000,
-
-			slides: [
-				{ src: 'img/slider/1.jpg' },
-				{ src: 'img/slider/4.jpg' },
-				{ src: 'img/slider/5.jpg' },
-			]
-
-		});
-	});
-}
-
-// -------------------------------------------------
-// --------------   MENU SCROLL  -------------------
-// -------------------------------------------------
-
-function arlo_tm_scrollable(){
-	
-	"use strict";
-	
-	var H				= jQuery(window).height();
-	var scrollable		= jQuery('.arlo_tm_leftpart .inner .menu.scrollable');
-	var verMenu			= jQuery('.arlo_tm_leftpart .inner .menu');
-	var logoHeight		= jQuery('.arlo_tm_leftpart .inner .logo').outerHeight();
-	var socialHeight	= jQuery('.arlo_tm_leftpart .inner .bottom').outerHeight()+100;
-
-	verMenu.css({height:H-logoHeight-socialHeight});
-	
-	scrollable.each(function(){
-		var element		= jQuery(this);
-		
-		element.css({height: H-logoHeight-socialHeight}).niceScroll({
-			touchbehavior:false,
-			cursorwidth:0,
-			autohidemode:true,
-			cursorborder:"0px solid #eee"
-		});
-	});
-}
-
-// -----------------------------------------------------
-// ---------------   MOBILE MENU    --------------------
-// -----------------------------------------------------
-
-function arlo_tm_mobile_menu(){
-	
-	"use strict";
-		
-	var hamburger 		= jQuery('.hamburger');
-	var mobileMenu		= jQuery('.arlo_tm_mobile_menu .dropdown');
-	
-	hamburger.on('click',function(){
-		var element 	= jQuery(this);
-		
-		if(element.hasClass('is-active')){
-			element.removeClass('is-active');
-			mobileMenu.slideUp();
-		}else{
-			element.addClass('is-active');
-			mobileMenu.slideDown();
-		}
-		return false;
 	});
 }
 
@@ -470,7 +508,6 @@ function arlo_tm_projects() {
 	});
 }
 
-
 // -----------------------------------------------------
 // --------------    ISOTOPE MASONRY    ----------------
 // -----------------------------------------------------
@@ -538,16 +575,16 @@ function arlo_tm_contact_form(){
 // -----------------------------------------------------
 
 function arlo_tm_location(){
-		var button		= jQuery('.href_location');
-		button.on('click',function(){
-			var element		= jQuery(this);
-			var address		= element.text();
-			address			= address.replace(/\ /g,'+');
-			var text		= 'https://maps.google.com?q=';
-			window.open(text+address);
-			return false;
-		});
-	}
+	var button		= jQuery('.href_location');
+	button.on('click',function(){
+		var element		= jQuery(this);
+		var address		= element.text();
+		address			= address.replace(/\ /g,'+');
+		var text		= 'https://maps.google.com?q=';
+		window.open(text+address);
+		return false;
+	});
+}
 
 // -------------------------------------------------
 // -------------  RIPPLE  --------------------------
@@ -569,16 +606,16 @@ function arlo_tm_ripple(){
 // -------------------------------------------------
 
 $(".glitch").mgGlitch({
-		destroy: false,
-		glitch: true,
-		scale: true,
-		blend: true,
-		blendModeType: "hue",
-		glitch1TimeMin: 200,
-		glitch1TimeMax: 400,
-		glitch2TimeMin: 10,
-		glitch2TimeMax: 100
-	});
+	destroy: false,
+	glitch: true,
+	scale: true,
+	blend: true,
+	blendModeType: "hue",
+	glitch1TimeMin: 200,
+	glitch1TimeMax: 400,
+	glitch2TimeMin: 10,
+	glitch2TimeMax: 100
+});
 
 // -------------------------------------------------
 // -------------  VIDEO PLAYER ---------------------
@@ -605,19 +642,3 @@ function arlo_tm_about_animation(){
 	  } });
 	}
 }
-
-// -----------------------------------------------------
-// --------------------    TOTOP    --------------------
-// -----------------------------------------------------
-
-function arlo_tm_totop(){
-	
-	"use strict";
-	
-	jQuery(".arlo_tm_totop").on('click', function(e) {
-		e.preventDefault();		
-		jQuery("html, body").animate({ scrollTop: 0 }, 'slow');
-		return false;
-	});
-}
-

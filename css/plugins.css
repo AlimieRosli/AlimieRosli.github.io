@@ -1,5 +1,5 @@
 /*
-This file is made by Marketify (2019)
+This file is made by Marketify (2019 - 2021)
 
 01) BASE
 02) FORM ELEMENTS
@@ -56,19 +56,6 @@ a, i{
 	border:none;
 }
 a:hover{text-decoration:none;}
-
-h1, h2, h3, h4, h5, h6{
-	font-weight:500;
-	line-height: 1.4;
-	font-family: "Montserrat";
-	color: #000;
-}
-h1 { font-size: 45px; }
-h2 { font-size: 36px; }
-h3 { font-size: 30px; }
-h4 { font-size: 24px; }
-h5 { font-size: 20px; }
-h6 { font-size: 16px; }
 
 table{
 	width:100%;
@@ -138,7 +125,7 @@ textarea{
 	border-radius:0;
 	font-size:13px;
 	resize:vertical;
-	font-family:"Montserrat";
+	font-family:"Poppins";
 	letter-spacing: 1.2px !important;
 	
 	-webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
@@ -183,7 +170,7 @@ input[type="color"],
 	-ms-box-sizing: border-box;     /* IE 10 + */
 	box-sizing: border-box;         /* Opera/IE 8+ */
 	
-	font-family:"Montserrat";
+	font-family:"Poppins";
 	
 	line-height:1.6;
 	padding:10px!important;
@@ -490,7 +477,7 @@ input[type="button"]{
 /*------------------------------------------------------------------*/
 
 .container {
-	max-width: 1200px;
+	max-width: 1170px;
 	width:100%;
 	margin-left: auto;
 	margin-right: auto;
