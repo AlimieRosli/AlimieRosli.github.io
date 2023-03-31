@@ -113,9 +113,11 @@ function arlo_tm_kenburn_slider(){
 			delay:7000,
 
 			slides: [
-				{ src: 'img/slider/1.jpg' },
-				{ src: 'img/slider/2.jpg' },
-				{ src: 'img/slider/3.jpg' },
+				{ src: 'img/photo/profile_pic/pp_1.jpg' },
+				{ src: 'img/photo/profile_pic/pp_2.jpg' },
+				{ src: 'img/photo/profile_pic/pp_3.jpg' },
+				{ src: 'img/photo/profile_pic/pp_4.jpg' },
+				{ src: 'img/photo/profile_pic/pp_5.jpg' },
 			]
 
 		});
@@ -244,7 +246,7 @@ function arlo_tm_animate_text(){
 	var animateSpan			= jQuery('.arlo_tm_animation_text_word');
 	
 	animateSpan.typed({
-		strings: ["Freelancer", "Web Developer", "Photographer"],
+		strings: ["Software Engineer", "Web Developer", "Graphic Editor"],
 		loop: true,
 		startDelay: 1e3,
 		backDelay: 2e3
